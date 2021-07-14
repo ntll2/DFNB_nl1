@@ -89,6 +89,21 @@ SELECT
 FROM dbo.stg_p2 sp
 
 --create tblTranFactDim
+--SELECT [tran_ID]
+--      ,[branch_id]
+--      ,[acct_id]
+--      ,[tran_date]
+--      ,[tran_time]
+--      ,[tran_type_id]
+--      ,[tran_amt]
+--      ,[tran_fee_amt]
+--	  INTO tblTranFactDim
+--	  FROM dbo.stg_p2_update spu
+
+TRUNCATE TABLE tblTranFactDim
+INSERT INTO tblTranFactDim
+
+
 SELECT [tran_ID]
       ,[branch_id]
       ,[acct_id]
@@ -101,6 +116,17 @@ SELECT [tran_ID]
 	  FROM dbo.stg_p2_update spu
 
 --create tblTranTypeDim
+--SELECT DISTINCT [tran_type_id]
+--      ,[tran_type_code]
+--      ,[tran_type_desc]
+--      ,[tran_fee_prct]
+--      ,[cur_cust_req_ind]
+--	  INTO tblTranTypeDim
+--	  FROM dbo.stg_p2_update spu
+
+TRUNCATE TABLE tblTranTypeDim
+INSERT INTO tblTranTypeDim
+
 SELECT DISTINCT [tran_type_id]
       ,[tran_type_code]
       ,[tran_type_desc]
@@ -113,3 +139,86 @@ SELECT DISTINCT [tran_type_id]
 ALTER TABLE dbo.tblTranFactDim
 ADD CONSTRAINT FK_tblTranFactDim_tblTranTypeDim
 FOREIGN KEY (tran_type_id) REFERENCES dbo.tblTranTypeDim(tran_type_id);
+
+
+--create tblBranchSum
+--SELECT tad.branch_id
+--	, year (tad.open_date) AS open_year
+--	, sum (tad.loan_amt) AS total_loan_branch
+--	INTO tblBranchSum
+--	from dbo.tblAcctDim tad
+--	GROUP BY tad.branch_id,year(tad.open_date)
+--	ORDER BY tad.branch_id,year(tad.open_date)
+
+TRUNCATE TABLE tblBranchSum
+INSERT INTO tblBranchSum
+
+
+SELECT tad.branch_id
+	, year (tad.open_date) AS open_year
+	, sum (tad.loan_amt) AS total_loan_branch
+	INTO tblBranchSum
+	from dbo.tblAcctDim tad
+	GROUP BY tad.branch_id,year(tad.open_date)
+	ORDER BY tad.branch_id,year(tad.open_date)
+
+--create tblProdSum
+--	SELECT tad.prod_id
+--	, year (tad.open_date) AS open_year
+--	, sum (tad.loan_amt) AS total_loan_prod
+--	INTO tblProdSum
+--	from dbo.tblAcctDim tad
+--	GROUP BY tad.prod_id,year(tad.open_date)
+--	ORDER BY tad.prod_id,year(tad.open_date)
+
+TRUNCATE TABLE tblProdSum
+INSERT INTO tblProdSum
+
+SELECT tad.prod_id
+	, year (tad.open_date) AS open_year
+	, sum (tad.loan_amt) AS total_loan_prod
+	INTO tblProdSum
+	from dbo.tblAcctDim tad
+	GROUP BY tad.prod_id,year(tad.open_date)
+	ORDER BY tad.prod_id,year(tad.open_date)
+
+
+--create tblAreaSum
+--SELECT tad.area_id
+--	, year (tad.open_date) AS open_year
+--	, sum (tad.loan_amt) AS total_loan_area
+--	INTO tblAreaSum
+--	from dbo.tblAcctDim tad
+--	GROUP BY tad.area_id,year(tad.open_date)
+--	ORDER BY tad.area_id,year(tad.open_date)
+
+TRUNCATE TABLE tblAreaSum
+INSERT INTO tblAreaSum
+
+SELECT tad.area_id
+	, year (tad.open_date) AS open_year
+	, sum (tad.loan_amt) AS total_loan_area
+	INTO tblAreaSum
+	from dbo.tblAcctDim tad
+	GROUP BY tad.area_id,year(tad.open_date)
+	ORDER BY tad.area_id,year(tad.open_date)
+
+--create tblRegionSum
+--SELECT tad.region_id
+--	, year (tad.open_date) AS open_year
+--	, sum (tad.loan_amt) AS total_loan_region
+--	INTO tblRegionSum
+--	from dbo.tblAcctDim tad
+--	GROUP BY tad.region_id,year(tad.open_date)
+--	ORDER BY tad.region_id,year(tad.open_date)
+
+TRUNCATE TABLE tblRegionSum
+INSERT INTO tblRegionSum
+
+SELECT tad.region_id
+	, year (tad.open_date) AS open_year
+	, sum (tad.loan_amt) AS total_loan_region
+	INTO tblRegionSum
+	from dbo.tblAcctDim tad
+	GROUP BY tad.region_id,year(tad.open_date)
+	ORDER BY tad.region_id,year(tad.open_date)

@@ -175,3 +175,38 @@ ON tad.pri_cust_id = tcd.cust_id
 INNER JOIN TopAcct
 ON topacct.acct_id = tad.acct_id
 
+
+--create tblBranchSum
+SELECT tad.branch_id
+	, year (tad.open_date) AS open_year
+	, sum (tad.loan_amt) AS total_loan_branch
+	INTO tblBranchSum
+	from dbo.tblAcctDim tad
+	GROUP BY tad.branch_id,year(tad.open_date)
+	ORDER BY tad.branch_id,year(tad.open_date)
+
+--create tblProdSum
+	SELECT tad.prod_id
+	, year (tad.open_date) AS open_year
+	, sum (tad.loan_amt) AS total_loan_prod
+	INTO tblProdSum
+	from dbo.tblAcctDim tad
+	GROUP BY tad.prod_id,year(tad.open_date)
+	ORDER BY tad.prod_id,year(tad.open_date)
+
+
+--create tblAreaSum
+SELECT tad.area_id
+	, year (tad.open_date) AS open_year
+	, sum (tad.loan_amt) AS total_loan_area
+	INTO tblAreaSum
+	from dbo.tblAcctDim tad
+	GROUP BY tad.area_id,year(tad.open_date)
+	ORDER BY tad.area_id,year(tad.open_date)
+
+--create View TotalLoanAmtBank
+CREATE VIEW TotalLoanAmtBank AS 
+SELECT year(dbo.tblAcctDim.open_date) AS open_year,
+	sum (dbo.tblAcctDim.loan_amt) AS total_loan_bank
+ from dbo.tblAcctDim
+ GROUP BY year(dbo.tblAcctDim.open_date)
