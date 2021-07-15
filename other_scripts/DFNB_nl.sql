@@ -210,3 +210,37 @@ SELECT year(dbo.tblAcctDim.open_date) AS open_year,
 	sum (dbo.tblAcctDim.loan_amt) AS total_loan_bank
  from dbo.tblAcctDim
  GROUP BY year(dbo.tblAcctDim.open_date)
+
+
+  --create View TotalNumofAccbyBranch
+CREATE VIEW TotalNumofAccbyBranch AS
+SELECT tad.prod_id
+	, year (tad.open_date) AS open_year
+	, count(tad.acct_id) AS total_acct_branch
+	from dbo.tblAcctDim tad
+	GROUP BY tad.prod_id,year(tad.open_date)
+
+ --create View TotalNumofAccbyArea
+CREATE VIEW TotalNumofAccbyArea AS
+SELECT tad.area_id
+	, year (tad.open_date) AS open_year
+	, count(tad.acct_id) AS total_acct_area
+	from dbo.tblAcctDim tad
+	GROUP BY tad.area_id,year(tad.open_date)
+
+
+ --create View TotalNumofAccbyRegion
+CREATE VIEW TotalNumofAccbyRegion AS
+SELECT tad.region_id
+	, year (tad.open_date) AS open_year
+	, count(tad.acct_id) AS total_acct_area
+	from dbo.tblAcctDim tad
+	GROUP BY tad.region_id,year(tad.open_date)
+
+
+ --create View TotalNumofAcct
+CREATE VIEW TotalNumofAcct AS
+SELECT year (tad.open_date) AS open_year
+	, count(tad.acct_id) AS total_acct_area
+	from dbo.tblAcctDim tad
+	GROUP BY year(tad.open_date)
